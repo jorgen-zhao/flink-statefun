@@ -1,6 +1,7 @@
 package org.apache.flink.statefun.sdk.nats.ingress;
 
 import org.apache.flink.statefun.sdk.annotations.ForRuntime;
+import org.apache.flink.statefun.sdk.core.OptionalProperty;
 import org.apache.flink.statefun.sdk.io.IngressIdentifier;
 import org.apache.flink.statefun.sdk.io.IngressSpec;
 
@@ -19,6 +20,8 @@ import java.util.Properties;
 public final class NatsIngressBuilder<T> {
 
     private final IngressIdentifier<T> id;
+    private OptionalProperty<String> credentialPath = OptionalProperty.withoutDefault();
+    private OptionalProperty<String> url = OptionalProperty.withoutDefault();
 
     private final List<String> streams = new ArrayList<>();
     private NatsIngressDeserializer<T> deserializer;
@@ -52,6 +55,22 @@ public final class NatsIngressBuilder<T> {
     }
 
     /**
+     * @param url The url of a nats that should be connected.
+     */
+    public NatsIngressBuilder<T> withUrl(String url) {
+        this.url.set(url);
+        return this;
+    }
+
+    /**
+     * @param credentialPath The credential of a nats that should be use.
+     */
+    public NatsIngressBuilder<T> withCredentialPath(String credentialPath) {
+        this.credentialPath.set(credentialPath);
+        return this;
+    }
+
+    /**
      * @param streams A list of streams that should be consumed.
      */
     public NatsIngressBuilder<T> withStreams(List<String> streams) {
@@ -63,8 +82,7 @@ public final class NatsIngressBuilder<T> {
      * @param deserializerClass The deserializer used to convert between Nats's byte messages and
      *                          Java objects.
      */
-    public NatsIngressBuilder<T> withDeserializer(
-            Class<? extends NatsIngressDeserializer<T>> deserializerClass) {
+    public NatsIngressBuilder<T> withDeserializer(Class<? extends NatsIngressDeserializer<T>> deserializerClass) {
         Objects.requireNonNull(deserializerClass);
         this.deserializer = instantiateDeserializer(deserializerClass);
         return this;
@@ -136,11 +154,10 @@ public final class NatsIngressBuilder<T> {
     // ========================================================================================
 
     @ForRuntime
-    NatsIngressBuilder<T> withDeserializer(NatsIngressDeserializer<T> deserializer) {
+    public NatsIngressBuilder<T> withDeserializer(NatsIngressDeserializer<T> deserializer) {
         this.deserializer = Objects.requireNonNull(deserializer);
         return this;
     }
-
     // ========================================================================================
     //  Utility methods
     // ========================================================================================
