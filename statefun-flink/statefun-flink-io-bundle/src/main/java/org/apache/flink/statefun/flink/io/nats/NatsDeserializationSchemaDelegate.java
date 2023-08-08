@@ -1,21 +1,20 @@
 package org.apache.flink.statefun.flink.io.nats;
 
+import io.nats.client.Message;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.statefun.flink.common.UnimplementedTypeInfo;
-import org.apache.flink.statefun.sdk.kafka.KafkaIngressDeserializer;
-import org.apache.flink.streaming.connectors.kafka.KafkaDeserializationSchema;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.flink.statefun.sdk.nats.ingress.NatsIngressDeserializer;
 
 import java.util.Objects;
 
-final class NatsDeserializationSchemaDelegate<T> implements KafkaDeserializationSchema<T> {
+final class NatsDeserializationSchemaDelegate<T> implements NatsDeserializationSchema<T> {
 
   private static final long serialVersionUID = 1;
 
   private final TypeInformation<T> producedTypeInfo;
-  private final KafkaIngressDeserializer<T> delegate;
+  private final NatsIngressDeserializer<T> delegate;
 
-  NatsDeserializationSchemaDelegate(KafkaIngressDeserializer<T> delegate) {
+  NatsDeserializationSchemaDelegate(NatsIngressDeserializer<T> delegate) {
     this.producedTypeInfo = new UnimplementedTypeInfo<>();
     this.delegate = Objects.requireNonNull(delegate);
   }
@@ -26,8 +25,8 @@ final class NatsDeserializationSchemaDelegate<T> implements KafkaDeserialization
   }
 
   @Override
-  public T deserialize(ConsumerRecord<byte[], byte[]> consumerRecord) {
-    return delegate.deserialize(consumerRecord);
+  public T deserialize(Message message) {
+    return delegate.deserialize(message);
   }
 
   @Override

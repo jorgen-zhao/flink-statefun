@@ -28,7 +28,7 @@ public final class NatsIngressSpec<T> implements IngressSpec<T> {
 
     this.properties = Objects.requireNonNull(properties);
 
-    this.streams = Objects.requireNonNull(streams, "AWS Kinesis stream names");
+    this.streams = Objects.requireNonNull(streams, "Nats stream names");
     if (streams.isEmpty()) {
       throw new IllegalArgumentException(
               "Must have at least one stream to consume from specified.");
