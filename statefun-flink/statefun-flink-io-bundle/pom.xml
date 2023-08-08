@@ -71,6 +71,11 @@ under the License.
             <artifactId>statefun-kinesis-io</artifactId>
             <version>${project.version}</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.flink</groupId>-->
+<!--            <artifactId>statefun-nats-io</artifactId>-->
+<!--            <version>${project.version}</version>-->
+<!--        </dependency>-->
 
         <!-- flink  -->
         <dependency>

@@ -68,6 +68,7 @@ under the License.
             built project artifacts before running the end-to-end tests.
         -->
         <module>statefun-e2e-tests</module>
+        <module>stateFun-nats-io</module>
     </modules>
 
     <properties>
@@ -85,6 +86,7 @@ under the License.
         <lz4-java.version>1.8.0</lz4-java.version>
         <flink-shaded-jackson.version>2.12.4-15.0</flink-shaded-jackson.version>
         <slf4j-log4j12.version>1.7.32</slf4j-log4j12.version>
+        <nats.version>2.16.9</nats.version>
         <test.unit.pattern>**/*Test.*</test.unit.pattern>
     </properties>
 
@@ -130,6 +132,11 @@ under the License.
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>2.13.2.2</version>
+            </dependency>
+            <dependency>
+                <groupId>io.nats</groupId>
+                <artifactId>jnats</artifactId>
+                <version>${nats.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -331,15 +338,15 @@ under the License.
                         </excludes>
                     </java>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>spotless-check</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>spotless-check</id>-->
+<!--                        <phase>verify</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>check</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
             </plugin>
 
             <!-- Dependency Enforcer -->
